@@ -3,8 +3,8 @@ import ScoreCard from "./components/ScoreCard";
 
 function App() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4">
-      <h1 className="text-3xl m-4 font-bold">Domino Score Tracker</h1>
+    <div className="flex flex-col items-center justify-top min-h-screen px-4">
+      <h1 className="text-3xl m-2 font-bold">Domino Score Tracker</h1>
       <ScoreCard playerName="Home" />
       <ScoreCard playerName="Visitor" />
       <button
