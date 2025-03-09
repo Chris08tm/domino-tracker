@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     host: "0.0.0.0", // Bind to all network interfaces
-    port: 3000, // Default port, you can change it if needed
+    allowedHosts: ["domino.byteprecisionit.com"],
+    port: 80, // Default port, you can change it if needed
   },
 });

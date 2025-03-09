@@ -5,8 +5,8 @@ function App() {
   return (
     <div className="flex flex-col items-center justify-top min-h-screen px-4">
       <h1 className="text-3xl m-2 font-bold">Domino Score Tracker</h1>
-      <ScoreCard playerName="Home" />
-      <ScoreCard playerName="Visitor" />
+      <ScoreCard playerName="Home" id="home" />
+      <ScoreCard playerName="Visitor" id="visitor" />
       <button
         type="button"
         className="flex justify-center items-center text-white w-1/2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"

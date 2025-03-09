@@ -1,9 +1,13 @@
 import ProgressBar from "./ProgressBar";
 import { useState } from "react";
 
-function ScoreCard({ playerName }) {
-  const [score, setScore] = useState(0);
+function ScoreCard({ playerName, id }) {
   const [inputValue, setInputValue] = useState("");
+  const [score, setScore] = useState(() => {
+    // Get initial value from local storage
+    const savedCount = localStorage.getItem(id + "count");
+    return savedCount ? parseInt(savedCount, 10) : 0;
+  });
 
   const handleReset = () => {
     setScore(0);
@@ -28,6 +32,7 @@ function ScoreCard({ playerName }) {
     if (!isNaN(number) && number > 0) {
       setScore((prevCount) => {
         const newCount = prevCount + number;
+        localStorage.setItem(id + "count", newCount);
         return newCount > 100 ? 100 : newCount; // Cap at 100
       });
       setInputValue(""); // Reset input field after adding
