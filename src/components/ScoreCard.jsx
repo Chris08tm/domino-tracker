@@ -39,7 +39,7 @@ function ScoreCard({ playerName, id }) {
     }
   };
   return (
-    <div className="min-w-full m-2 p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+    <div className="min-w-full m-2 p-6 border rounded-lg shadow-sm bg-gray-800 border-gray-700">
       <div className="flex justify-between">
         <div className="flex">
           <svg
@@ -102,6 +102,7 @@ function ScoreCard({ playerName, id }) {
           </div> */}
           <input
             type="number"
+            inputMode="numeric"
             id="default-search"
             className="block w-full p-4 ps-10w text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-base sm:text-lg lg:text-xl"
             placeholder="Add score..."
