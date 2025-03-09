@@ -10,6 +10,7 @@ function ScoreCard({ playerName, id }) {
   });
 
   const handleReset = () => {
+    localStorage.setItem(id + "count", 0);
     setScore(0);
   };
 
