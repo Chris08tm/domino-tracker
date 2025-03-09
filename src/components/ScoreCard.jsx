@@ -5,8 +5,8 @@ function ScoreCard({ playerName, id }) {
   const [inputValue, setInputValue] = useState("");
   const [score, setScore] = useState(() => {
     // Get initial value from local storage
-    const savedCount = localStorage.getItem(id + "count");
-    return savedCount ? parseInt(savedCount, 10) : 0;
+    const savedCount = parseInt(localStorage.getItem(id + "count"));
+    return savedCount > 100 ? 100 : savedCount;
   });
 
   const handleReset = () => {
