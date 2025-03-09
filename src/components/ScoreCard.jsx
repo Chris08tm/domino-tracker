@@ -79,7 +79,7 @@ function ScoreCard({ playerName }) {
 
       <form class="max-w-md mx-auto" onSubmit={handleSubmit}>
         <div class="relative">
-          <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+          {/* <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -94,7 +94,7 @@ function ScoreCard({ playerName }) {
                 d="M12 4.5v15m7.5-7.5h-15"
               />
             </svg>
-          </div>
+          </div> */}
           <input
             type="number"
             id="default-search"
