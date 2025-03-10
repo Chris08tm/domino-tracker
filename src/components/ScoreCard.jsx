@@ -1,13 +1,29 @@
 import ProgressBar from "./ProgressBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function ScoreCard({ playerName, id }) {
+function ScoreCard({ id, reset }) {
   const [inputValue, setInputValue] = useState("");
   const [score, setScore] = useState(() => {
     // Get initial value from local storage
     const savedCount = parseInt(localStorage.getItem(id + "count"));
+    if (isNaN(savedCount)) return 0;
     return savedCount > 100 ? 100 : savedCount;
   });
+  const [playerName, setPlayerName] = useState(() => {
+    const name = localStorage.getItem(id + "name");
+    if (name == null) return "Player";
+    return name;
+  });
+  const [nameField, setNameField] = useState(false);
+
+  useEffect(() => {
+    const savedCount = parseInt(localStorage.getItem(id + "count"));
+    if (!isNaN(savedCount) && savedCount <= 100) {
+      setScore(savedCount);
+    } else {
+      setScore(0); // Set default value if localStorage value is invalid
+    }
+  }, [reset, id]);
 
   const handleReset = () => {
     localStorage.setItem(id + "count", 0);
@@ -39,42 +55,91 @@ function ScoreCard({ playerName, id }) {
       setInputValue(""); // Reset input field after adding
     }
   };
+
+  const handleNameField = () => {
+    setNameField(() => !nameField);
+  };
+
+  const handleNameSubmit = (event) => {
+    event.preventDefault(); // Prevent page reload
+    handleNameField();
+    handleNameChange();
+  };
+
+  const handleNameChange = (e) => {
+    const name = e.target.value;
+    setPlayerName(name);
+    localStorage.setItem(id + "name", name);
+  };
+
   return (
-    <div className="min-w-full m-2 p-6 border rounded-lg shadow-sm bg-gray-800 border-gray-700">
+    <div className=" md:w-96 m-2 p-6 border rounded-lg shadow-sm bg-gray-800 border-gray-700">
       <div className="flex justify-between">
-        <div className="flex">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="white"
-            class="size-6"
+        <div className="flex w-full">
+          <button onClick={handleNameField}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="white"
+              className="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+              />
+            </svg>
+          </button>
+          <form
+            className="text-white w-full mx-1 flex justify-between items-center"
+            onSubmit={handleNameSubmit}
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+            <input
+              type="text"
+              value={playerName}
+              disabled={nameField ? false : true}
+              onChange={handleNameChange}
             />
-          </svg>
-          <h2 className="text-white mx-1">{playerName}</h2>
+            <button className={`${!nameField ? "hidden" : ""}`} type="submit">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="white"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m4.5 12.75 6 6 9-13.5"
+                />
+              </svg>
+            </button>
+          </form>
         </div>
-        <button onClick={handleReset}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="white"
-            class="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
-            />
-          </svg>
-        </button>
+        {nameField == false ? (
+          <button onClick={handleReset}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="white"
+              class="size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+              />
+            </svg>
+          </button>
+        ) : (
+          ""
+        )}
       </div>
 
       <div className="flex justify-center">
@@ -85,22 +150,6 @@ function ScoreCard({ playerName, id }) {
 
       <form class="max-w-md mx-auto" onSubmit={handleSubmit}>
         <div class="relative">
-          {/* <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="oklch(0.707 0.022 261.325)"
-              className="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
-          </div> */}
           <input
             type="number"
             inputMode="numeric"
